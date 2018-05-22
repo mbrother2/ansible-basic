@@ -1,4 +1,4 @@
-# Create file to remote server
+# Create file or directory to remote server
 
 + Create file from template in playbook
 + In ../tasks/main.yml
@@ -14,3 +14,12 @@
 [client]
 user="root"
 password="{{ mariadb_root_password }}"
+
++ Create directory on remote server
+- name: Create tmp directory for phpmyadmin
+  file:
+    path: "/usr/share/nginx/html/phpmyadmin/tmp"
+    state: directory
+    owner: root
+    group: root
+    mode: 0777
