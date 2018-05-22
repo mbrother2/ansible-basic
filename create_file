@@ -1,0 +1,16 @@
+# Create file to remote server
+
++ Create file from template in playbook
++ In ../tasks/main.yml
+- name: Create file /root/.my.cnf to auto login root
+  template:
+    src: .my.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0644
+
++ In ../templates/.my.cnf.j2
+[client]
+user="root"
+password="{{ mariadb_root_password }}"
