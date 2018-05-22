@@ -1,0 +1,57 @@
+# Replace string in file
+
++ module:
+  replace: replace all instances of a pattern within a file.
+  lineinfile: replace a single line
+
++ example:
+---
+- name: Replace 443,587 port to 443,465,587 in csf.conf
+  replace:
+    path: /etc/csf/csf.conf
+    regexp: '443,587'
+    replace: '443,465,587'
+  backup: yes
+  notify:
+    - Restart csf
+
+---
+- name: Replace multi value
+  replace:
+    path: /etc/csf/csf.conf
+    regexp: "{{ item.regexp }}"
+    replace: "{{ item.line }}"
+  with_items:
+    - { regexp: 'TESTING = "1"', line: 'TESTING = "0"' }
+    - { regexp: '443,587', line: '443,465,587' }
+    - { regexp: 'RESTRICT_SYSLOG = "0"', line: 'RESTRICT_SYSLOG = "2"'
+  backup: yes
+  notify:
+    - Restart csf
+
+---
+- name: Change an value in php.ini file
+  lineinfile:
+    path: /etc/php.ini
+    regexp: '^memory_limit = 128M'
+    line: 'memory_limit = 256M'
+  backup: yes
+  notify:
+    - Restart php-fpm
+
+---
+- name: Change some values in php.ini file
+  lineinfile:
+    path: /etc/php.ini
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^memory_limit = 128M', line: 'memory_limit = 256M' }
+    - { regexp: '^upload_max_filesize = 2M', line: 'upload_max_filesize = 200M' }
+    - { regexp: '^post_max_size = 8M', line: 'post_max_size = 200M' }
+    - { regexp: '^max_execution_time = 30', line: 'max_execution_time = 300' }
+    - { regexp: '^max_input_time = 60', line: 'max_input_time = 300' }
+    - { regexp: '^; max_input_vars = 1000', line: 'max_input_vars = 10000' }
+  backup: yes
+  notify:
+    - Restart php-fpm
