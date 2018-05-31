@@ -1,5 +1,9 @@
 # Ignore error when run task in playbook
 
++ module:
+  ignore_errors: ignore error and run next task
+  failed_when: Only fail when condition match
+
 # Use ignore_errors module
 - name: Check user name avaiable
   shell: ls -1 /var/cpanel/users | grep -wc {{ user_name }}
