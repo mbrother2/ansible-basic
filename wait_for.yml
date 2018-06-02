@@ -1,0 +1,15 @@
+# Wait for a job has been finished or a file has been created
+
++ module:
+  wait_for: wait for a job has been finished or a file has been created
+
+- name: Wait for a process has been finished
+  wait_for:
+    path: /proc/{{ id_process }}/status
+    state: absent
+    timeout: 3600
+
+- name: Wait for backup file has been created
+  wait_for:
+    path: /backup/backup_user.tar.gz
+    timeout: 3600
