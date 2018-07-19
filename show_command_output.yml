@@ -1,0 +1,9 @@
+# Show command ouput on remote server when run playbook
+
+- name: Say Hello
+  shell: echo Hello
+  register: shell_output
+
+- name: Show progress
+  debug:
+    msg: "{{ shell_output.stdout_lines }}"
